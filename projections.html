@@ -59,7 +59,11 @@
             }
         xhr.send();
         $(document).ready( function () {
-                          $('#res').DataTable();
+                          $('#res').DataTable(
+                          {
+                            "filter": true,
+                            "pagingType": "simple_numbers",
+                          });
                           } );
         
     </script>
