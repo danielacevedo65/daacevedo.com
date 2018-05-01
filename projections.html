@@ -37,8 +37,16 @@
                     table_string += '<tbody>';
                     for (var row_index in contents[0].values) {
                         table_string += '<tr>';
+                        var count = 0;
                         for (var col_index in contents[0].values[row_index]) {
-                            table_string += '<td>' + contents[0].values[row_index][col_index] + '</td>';
+                            if (count == 0) {
+                                table_string += '<td data-search="' + contents[0].values[row_index][col_index] + ' ' + contents[0].values[row_index][col_index+1] + ' ' + contents[0].values[row_index][col_index+2] + '">'
+                                count += 1;
+                            }
+                            else {
+                                table_string += '<td>'
+                            }
+                            table_string += contents[0].values[row_index][col_index] + '</td>';
                         }
                         table_string += '</tr>';
                     }
