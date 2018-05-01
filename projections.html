@@ -25,12 +25,16 @@
                 //alert(JSON.stringify(contents));
                 
                 var table_string = '<table>';
+                
                 if (contents) {
                     table_string += '<tr>';
+                    table_string += '<thead>';
                     for (var index in contents[0].columns) {
                         table_string += '<th>' + contents[0].columns[index] + '</th>';
                     }
                     table_string += '</tr>';
+                    table_string += '</thead>';
+                    table_string += '<tbody>';
                     for (var row_index in contents[0].values) {
                         table_string += '<tr>';
                         for (var col_index in contents[0].values[row_index]) {
@@ -38,7 +42,7 @@
                         }
                         table_string += '</tr>';
                     }
-                    
+                    table_string += '</tbody>';
                 }
                 
                 table_string += '</table>';
