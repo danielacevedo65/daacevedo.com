@@ -33,7 +33,8 @@
                     }
                     table_string += '</tr>';
                     table_string += '</thead>';
-                    document.getElementById("head") = table_string;
+                    var header = document.getElementById("head");
+                    header.childNodes[0].nodeValue = table_string;
                     table_string = '';
                     table_string += '<tbody>';
                     for (var row_index in contents[0].values) {
@@ -44,7 +45,8 @@
                         table_string += '</tr>';
                     }
                     table_string += '</tbody>';
-                    document.getElementById("result") = table_string;
+                    var body = document.getElementById("body");
+                    body.childNodes[0].nodeValue = table_string;
 
                 }
                 table_string += '</table>';
@@ -66,16 +68,10 @@
         <table id="res" class="display">
             <thead id="head">
             </thead>
-            <tbody id="result">
+            <tbody id="body">
             </tbody>
         </table>
         
-        <!--<p id="res"></p>
-        <table id="res" class="display">
-            
-        </table>
-         
-         -->
         
     </body>
 </html>
