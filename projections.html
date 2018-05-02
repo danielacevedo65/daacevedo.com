@@ -22,59 +22,60 @@
     
     
 
-<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="js/sql.js"></script>
-<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
-<script type="text/javascript" charset="utf8" src="js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="js/sql.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
+    
         
-        <script type="text/javascript">
-            var path = "projections.sqlite"
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', path, true);
-            xhr.responseType = 'arraybuffer';
+    <script type="text/javascript">
+        var path = "projections.sqlite"
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', path, true);
+        xhr.responseType = 'arraybuffer';
             
-            xhr.onload = function(e) {
-                var uInt8Array = new Uint8Array(this.response);
-                var db = new SQL.Database(uInt8Array);
-                var contents = db.exec("SELECT playerID, Name, age, PA, AB, H, SINGLES as [1B], DOUBLES as [2B], TRIPLES as [3B], HR, R, RBI, SB, K, BB, SF, AVG, OBP, SLG, OPS, ISO, BABIP FROM projections");
+        xhr.onload = function(e) {
+            var uInt8Array = new Uint8Array(this.response);
+            var db = new SQL.Database(uInt8Array);
+            var contents = db.exec("SELECT playerID, Name, age, PA, AB, H, SINGLES as [1B], DOUBLES as [2B], TRIPLES as [3B], HR, R, RBI, SB, K, BB, SF, AVG, OBP, SLG, OPS, ISO, BABIP FROM projections");
                 
-                var table_string = '';
+            var table_string = '';
                 
-                if (contents) {
-                    table_string += '<thead>';
+            if (contents) {
+                table_string += '<thead>';
+                table_string += '<tr>';
+                for (var index in contents[0].columns) {
+                    table_string += '<th>' + contents[0].columns[index] + '</th>';
+                }
+                table_string += '</tr>';
+                table_string += '</thead>';
+                document.getElementById("head").innerHTML = table_string;
+                table_string = '';
+                table_string += '<tbody>';
+                for (var row_index in contents[0].values) {
                     table_string += '<tr>';
-                    for (var index in contents[0].columns) {
-                        table_string += '<th>' + contents[0].columns[index] + '</th>';
+                    for (var col_index in contents[0].values[row_index]) {
+                        table_string += '<td>' + contents[0].values[row_index][col_index] + '</td>';
                     }
                     table_string += '</tr>';
-                    table_string += '</thead>';
-                    document.getElementById("head").innerHTML = table_string;
-                    table_string = '';
-                    table_string += '<tbody>';
-                    for (var row_index in contents[0].values) {
-                        table_string += '<tr>';
-                        for (var col_index in contents[0].values[row_index]) {
-                            table_string += '<td>' + contents[0].values[row_index][col_index] + '</td>';
-                        }
-                        table_string += '</tr>';
-                    }
-                    table_string += '</tbody>';
-                    document.getElementById("body").innerHTML = table_string;
-
                 }
-                table_string += '</table>';
+                table_string += '</tbody>';
+                document.getElementById("body").innerHTML = table_string;
+
             }
-        xhr.send();
+            table_string += '</table>';
+        }
+    xhr.send();
         
-        setTimeout(myFunction, 3000);
-        $(document).ready( function () {
-                          $('#res').DataTable({
-                            "aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
-                            "iDisplayLength": 25
-                          });
-                          } );
+    $(document).ready( function () {
+        $('#res').DataTable({
+            "bSearchable": false,
+            "aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
+            "iDisplayLength": 25
+            });
+        } );
         
     </script>
 </body>
-</html>
+
 </html>
