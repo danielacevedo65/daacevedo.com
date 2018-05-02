@@ -22,9 +22,8 @@
                 var uInt8Array = new Uint8Array(this.response);
                 var db = new SQL.Database(uInt8Array);
                 var contents = db.exec("SELECT playerID, Name, age, PA, AB, H, SINGLES as [1B], DOUBLES as [2B], TRIPLES as [3B], HR, R, RBI, SB, K, BB, SF, AVG, OBP, SLG, OPS, ISO, BABIP FROM projections");
-                //alert(JSON.stringify(contents));
                 
-                var table_string = '<table id="table" class="display">';
+                var table_string = '';
                 
                 if (contents) {
                     table_string += '<thead>';
@@ -34,6 +33,8 @@
                     }
                     table_string += '</tr>';
                     table_string += '</thead>';
+                    document.getElementById("head") = table_string;
+                    table_string = '';
                     table_string += '<tbody>';
                     for (var row_index in contents[0].values) {
                         table_string += '<tr>';
@@ -43,16 +44,18 @@
                         table_string += '</tr>';
                     }
                     table_string += '</tbody>';
+                    document.getElementById("result") = table_string;
 
                 }
-                
                 table_string += '</table>';
-                //alert(table_string);
-                document.getElementById("table") = table_string;
             }
         xhr.send();
+        
         $(document).ready( function () {
-                          $('#res').DataTable();
+                          $('#res').DataTable({
+                            "aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
+                            "iDisplayLength": 25
+                          });
                           } );
         
     </script>
@@ -60,7 +63,11 @@
     <body>
         
         <h1>Acevedo Projections</h1>
-        <table id="table" class="display">
+        <table id="res" class="display">
+            <thead id="head">
+            </thead>
+            <tbody id="result">
+            </tbody>
         </table>
         
         <!--<p id="res"></p>
