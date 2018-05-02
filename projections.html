@@ -1,64 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Baseball Projections</title>
-        <!-- for-mobile-apps -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-            <meta name="keywords" content="Daniel Acevedo" />
+<head>
+<title>Baseball Projections</title>
+<!-- for-mobile-apps -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Daniel Acevedo" />
+
+        <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="js/sql.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
+        <script type="text/javascript" charset="utf8" src="js/jquery.dataTables.min.js"></script>
+        
+        <script type="text/javascript">
+            var path = "projections.sqlite"
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', path, true);
+            xhr.responseType = 'arraybuffer';
             
-            <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-            <script type="text/javascript" src="js/sql.js"></script>
-            <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
-                <script type="text/javascript" charset="utf8" src="js/jquery.dataTables.min.js"></script>
+            xhr.onload = function(e) {
+                var uInt8Array = new Uint8Array(this.response);
+                var db = new SQL.Database(uInt8Array);
+                var contents = db.exec("SELECT playerID, Name, age, PA, AB, H, SINGLES as [1B], DOUBLES as [2B], TRIPLES as [3B], HR, R, RBI, SB, K, BB, SF, AVG, OBP, SLG, OPS, ISO, BABIP FROM projections");
                 
-                <script type="text/javascript">
-                    var path = "projections.sqlite"
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('GET', path, true);
-                    xhr.responseType = 'arraybuffer';
-                    
-                    xhr.onload = function(e) {
-                        var uInt8Array = new Uint8Array(this.response);
-                        var db = new SQL.Database(uInt8Array);
-                        var contents = db.exec("SELECT playerID, Name, age, PA, AB, H, SINGLES as [1B], DOUBLES as [2B], TRIPLES as [3B], HR, R, RBI, SB, K, BB, SF, AVG, OBP, SLG, OPS, ISO, BABIP FROM projections");
-                        //alert(JSON.stringify(contents));
-                        
-                        var table_string = '';//'<table id="res" class="display">';
-                        
-                        if (contents) {
-                            table_string += '<thead>';
-                            table_string += '<tr>';
-                            for (var index in contents[0].columns) {
-                                table_string += '<th>' + contents[0].columns[index] + '</th>';
-                            }
-                            table_string += '</tr>';
-                            table_string += '</thead>';
-                            document.getElementById("head") = table_string;
-                            table_string = '';
-                            table_string += '<tbody>';
-                            for (var row_index in contents[0].values) {
-                                table_string += '<tr>';
-                                for (var col_index in contents[0].values[row_index]) {
-                                    table_string += '<td>' + contents[0].values[row_index][col_index] + '</td>';
-                                }
-                                table_string += '</tr>';
-                            }
-                            table_string += '</tbody>';
-                            document.getElementById("result") = table_string;
-                        }
-                        
-                        table_string += '</table>';
-                        //alert(table_string);
-                        //document.getElementById("result").innerHTML = table_string;
+                var table_string = '';
+                
+                if (contents) {
+                    table_string += '<thead>';
+                    table_string += '<tr>';
+                    for (var index in contents[0].columns) {
+                        table_string += '<th>' + contents[0].columns[index] + '</th>';
                     }
-                xhr.send();
-                $(document).ready( function () {
-                                  $('#res').DataTable();
-                                  } );
-                                  
-                    </script>
-                </head>
+                    table_string += '</tr>';
+                    table_string += '</thead>';
+                    document.getElementById("head") = table_string;
+                    table_string = '';
+                    table_string += '<tbody>';
+                    for (var row_index in contents[0].values) {
+                        table_string += '<tr>';
+                        for (var col_index in contents[0].values[row_index]) {
+                            table_string += '<td>' + contents[0].values[row_index][col_index] + '</td>';
+                        }
+                        table_string += '</tr>';
+                    }
+                    table_string += '</tbody>';
+                    document.getElementById("result") = table_string;
+
+                }
+                table_string += '</table>';
+            }
+        xhr.send();
+        
+        $(document).ready( function () {
+                          $('#res').DataTable({
+                            "aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
+                            "iDisplayLength": 25
+                          });
+                          } );
+        
+    </script>
+    </head>
     <body>
         
         <h1>Acevedo Projections</h1>
@@ -70,9 +71,9 @@
         </table>
         
         <!--<p id="res"></p>
-         <table id="res" class="display">
-         
-         </table>
+        <table id="res" class="display">
+            
+        </table>
          
          -->
         
