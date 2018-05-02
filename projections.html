@@ -33,8 +33,7 @@
                     }
                     table_string += '</tr>';
                     table_string += '</thead>';
-                    var header = document.getElementById("head");
-                    header.childNodes[0].nodeValue = table_string;
+                    document.getElementById("head").value = table_string;
                     table_string = '';
                     table_string += '<tbody>';
                     for (var row_index in contents[0].values) {
@@ -45,8 +44,7 @@
                         table_string += '</tr>';
                     }
                     table_string += '</tbody>';
-                    var body = document.getElementById("body");
-                    body.childNodes[0].nodeValue = table_string;
+                    document.getElementById("body").value = table_string;
 
                 }
                 table_string += '</table>';
