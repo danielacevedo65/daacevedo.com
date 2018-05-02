@@ -24,7 +24,7 @@
                 var contents = db.exec("SELECT playerID, Name, age, PA, AB, H, SINGLES as [1B], DOUBLES as [2B], TRIPLES as [3B], HR, R, RBI, SB, K, BB, SF, AVG, OBP, SLG, OPS, ISO, BABIP FROM projections");
                 //alert(JSON.stringify(contents));
                 
-                var table_string = '<table>';
+                var table_string = '<table id="res" class="display">';
                 
                 if (contents) {
                     table_string += '<thead>';
@@ -47,7 +47,7 @@
                 
                 table_string += '</table>';
                 //alert(table_string);
-                document.getElementById("res").innerHTML = table_string;    
+                document.getElementById("result").innerHTML = table_string;
             }
         xhr.send();
         $(document).ready( function () {
@@ -59,10 +59,13 @@
     <body>
         
         <h1>Acevedo Projections</h1>
-        <!--<p id="res"></p> -->
+        <div id="result">
+        <!--<p id="res"></p>
         <table id="res" class="display">
             
         </table>
+         
+         -->
         
     </body>
 </html>
