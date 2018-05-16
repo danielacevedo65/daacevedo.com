@@ -27,7 +27,7 @@
         xhr.onload = function(e) {
             var uInt8Array = new Uint8Array(this.response);
             var db = new SQL.Database(uInt8Array);
-            var contents = db.exec("SELECT playerID, Name, yearsPlayed, age, PA, AB, H, SINGLES as [1B], DOUBLES as [2B], TRIPLES as [3B], HR, R, RBI, SB, K, BB, SF, AVG, OBP, SLG, OPS, ISO, BABIP FROM projections");
+            var contents = db.exec("SELECT playerID, Name, yearsPlayed, age, PA, AB, H, SINGLES as [1B], DOUBLES as [2B], TRIPLES as [3B], HR, R, RBI, SB, K, BB, SF, AVG, OBP, SLG, OPS, ISO, BABIP FROM projections WHERE year=2018");
                 
             var table_string = '';
                 
